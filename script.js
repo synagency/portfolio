@@ -1,3 +1,51 @@
+// Animation de chargement
+document.addEventListener('DOMContentLoaded', function() {
+    // Ajouter la classe loading au body
+    document.body.classList.add('loading');
+    
+    // Simuler le temps de chargement et afficher l'animation
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingText = document.querySelector('.loading-text');
+    
+    // Messages de chargement qui changent
+    const loadingMessages = [
+        'Préparation de votre expérience...',
+        'Chargement des services SynAgency...',
+        'Optimisation des performances...',
+        'Finalisation...'
+    ];
+    
+    let messageIndex = 0;
+    
+    // Changer le message toutes les 800ms
+    const messageInterval = setInterval(() => {
+        if (messageIndex < loadingMessages.length - 1) {
+            messageIndex++;
+            if (loadingText) {
+                loadingText.textContent = loadingMessages[messageIndex];
+            }
+        }
+    }, 800);
+    
+    // Masquer l'écran de chargement après 3.5 secondes
+    setTimeout(() => {
+        clearInterval(messageInterval);
+        
+        if (loadingScreen) {
+            loadingScreen.classList.add('fade-out');
+        }
+        
+        // Retirer la classe loading du body pour afficher le contenu
+        setTimeout(() => {
+            document.body.classList.remove('loading');
+            if (loadingScreen) {
+                loadingScreen.remove();
+            }
+        }, 500);
+        
+    }, 3500);
+});
+
 // Gestion des témoignages - données
 const testimonials = {
     sophie: {
