@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Gestion des Tarifs SynAgency</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .admin-panel {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2563eb;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+        .btn {
+            background: #2563eb;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin: 10px 0;
+        }
+        .btn:hover {
+            background: #1e40af;
+        }
+        .btn.secondary {
+            background: #6b7280;
+        }
+        .btn.secondary:hover {
+            background: #4b5563;
+        }
+        .current-pricing {
+            background: #f0f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-left: 4px solid #2563eb;
+        }
+        .quick-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .quick-btn {
+            padding: 8px 12px;
+            background: #f59e0b;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .quick-btn:hover {
+            background: #d97706;
+        }
+        .instructions {
+            background: #fef3c7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-panel">
+        <h1>🔧 Admin - Tarifs SynAgency</h1>
+        
+        <div class="current-pricing">
+            <strong>Tarif actuel: <span id="current-rate">40</span>%</strong>
+        </div>
+
+        <div class="form-group">
+            <label for="percentage">Nouveau pourcentage (entre 20 et 50%):</label>
+            <input type="number" id="percentage" min="20" max="50" value="40" step="1">
+        </div>
+
+        <button class="btn" onclick="updatePricing()">✅ Mettre à jour le tarif</button>
+
+        <div class="quick-buttons">
+            <button class="quick-btn" onclick="setQuickRate(30)">30%</button>
+            <button class="quick-btn" onclick="setQuickRate(35)">35%</button>
+            <button class="quick-btn" onclick="setQuickRate(40)">40%</button>
+            <button class="quick-btn" onclick="setQuickRate(45)">45%</button>
+            <button class="quick-btn" onclick="setQuickRate(50)">50%</button>
+        </div>
+
+        <button class="btn secondary" onclick="resetPricing()">🔄 Remettre à 40% (défaut)</button>
+        
+        <button class="btn secondary" onclick="openMainSite()">🌐 Voir le site principal</button>
+
+        <div class="instructions">
+            <strong>📝 Instructions:</strong><br>
+            • Modifiez le pourcentage ci-dessus et cliquez sur "Mettre à jour"<br>
+            • Utilisez les boutons rapides pour les valeurs communes<br>
+            • Le changement sera visible immédiatement sur le site<br>
+            • La valeur est sauvegardée automatiquement dans le navigateur
+        </div>
+    </div>
+
+    <script>
+        // Fonctions pour gérer les tarifs
+        function updatePricing() {
+            const percentage = document.getElementById('percentage').value;
+            const numPercentage = parseInt(percentage);
+            
+            if (numPercentage < 20 || numPercentage > 50) {
+                alert('Veuillez entrer un pourcentage entre 20% et 50%');
+                return;
+            }
+            
+            // Sauvegarder dans localStorage
+            localStorage.setItem('synagency-pricing', numPercentage);
+            
+            // Mettre à jour l'affichage
+            document.getElementById('current-rate').textContent = numPercentage;
+            
+            alert(`✅ Tarif mis à jour à ${numPercentage}%!\n\nLe changement sera visible sur le site principal.`);
+        }
+
+        function setQuickRate(rate) {
+            document.getElementById('percentage').value = rate;
+            updatePricing();
+        }
+
+        function resetPricing() {
+            if (confirm('Voulez-vous vraiment remettre le tarif à 40% (défaut)?')) {
+                localStorage.removeItem('synagency-pricing');
+                document.getElementById('percentage').value = 40;
+                document.getElementById('current-rate').textContent = 40;
+                alert('✅ Tarif remis à 40% (défaut)');
+            }
+        }
+
+        function openMainSite() {
+            window.open('index.html', '_blank');
+        }
+
+        // Initialiser avec la valeur actuelle
+        function initAdmin() {
+            const saved = localStorage.getItem('synagency-pricing');
+            const currentRate = saved ? parseInt(saved) : 40;
+            document.getElementById('percentage').value = currentRate;
+            document.getElementById('current-rate').textContent = currentRate;
+        }
+
+        // Initialiser au chargement
+        document.addEventListener('DOMContentLoaded', initAdmin);
+    </script>
+</body>
+</html>
