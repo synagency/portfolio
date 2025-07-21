@@ -226,22 +226,22 @@ const PricingManager = {
                 if (percentage >= 20 && percentage <= 30 && !alwaysIncluded.includes(featureId)) {
                     // Fonctionnalités premium non incluses à bas tarif (20-30%)
                     newClass = 'fas fa-times';
-                    newColor = '#ef4444';
+                    newColor = '#dc2626';
                     newOpacity = '0.6';
                 } else if (percentage >= 30 && percentage < 40 && !alwaysIncluded.includes(featureId)) {
                     // Support et Conseils non inclus entre 30-40%
                     newClass = 'fas fa-times';
-                    newColor = '#ef4444';
+                    newColor = '#dc2626';
                     newOpacity = '0.6';
                 } else if (percentage >= 40 && percentage < 50 && featureId === 'feature-advice') {
                     // Conseils personnalisés non inclus entre 40-50%
                     newClass = 'fas fa-times';
-                    newColor = '#ef4444';
+                    newColor = '#dc2626';
                     newOpacity = '0.6';
                 } else {
                     // Fonctionnalités incluses
                     newClass = 'fas fa-check';
-                    newColor = '#22c55e';
+                    newColor = '#a855f7';
                     newOpacity = '1';
                 }
 
